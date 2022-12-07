@@ -1,3 +1,21 @@
-* =org_script=
+* org_script
 
 Search and run code blocks from your org files.
+
+Configure:
+- set =ORG= environment variable to a path at which your .org files reside
+- add =org_script.sh= to path (possibly aliasing it to something short)
+
+Then, given an org file with this code block inside:
+#+begin_src org
+  ,#+begin_src bash :name my_script
+    echo Hello, my friend
+  ,#+end_src
+#+end_src
+
+Then running
+- =org_script.sh my_script= runs the script
+- =org_script.sh show my_script= shows the contents of the script
+
+Running bare =org_script.sh= lists all scripts it can find. When fzf
+is available, it also presents a choice to run any of these.
