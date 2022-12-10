@@ -8,7 +8,7 @@ Configure:
 
 Then, given an org file with this code block inside:
 #+begin_src org
-  ,#+begin_src bash :name my_script
+  ,#+begin_src bash :script my_script
     echo Hello, my friend
   ,#+end_src
 #+end_src
