@@ -71,5 +71,5 @@ case "$CMD" in
       ;;
     '' | ls | list ) orgscript_list ;;
     show ) orgscript_get "$1" ;;
-    * ) orgscript_get "$CMD" | bash -s ;;
+    * ) orgscript_get "$CMD" | bash -s -- "$@" ;;
 esac
