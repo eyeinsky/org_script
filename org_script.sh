@@ -25,14 +25,14 @@ orgscript_rg() { # ripgrep alternative to orgscript_grep
 # commands #
 ############
 
-# get script
+# output script content to stdout, including org block markers (#+begin_src .., #+end_src)
 orgscript_get() {
     local NAME="${1}"
     [[ -z "$NAME" ]] && echo '!! orgscript: script name not given' && return 1
     orgscript_grep "$NAME" "$ORG"
 }
 orgscript_run() {
-    orgscript_get "$1" | bash -s
+    orgscript_get "$1" | bash -si
 }
 
 
