@@ -26,13 +26,13 @@ orgscript_rg() { # ripgrep alternative to orgscript_grep
 ############
 
 # output script content to stdout, including org block markers (#+begin_src .., #+end_src)
-orgscript_get() {
+orgscript_cat_text() {
     local NAME="${1}"
     [[ -z "$NAME" ]] && echo '!! orgscript: script name not given' && return 1
     orgscript_grep "$NAME" "$ORG"
 }
 orgscript_run() {
-    orgscript_get "$1" | bash -si
+    orgscript_cat_text "$1" | bash -si
 }
 
 
@@ -70,6 +70,6 @@ case "$CMD" in
 	EOF
       ;;
     '' | ls | list ) orgscript_list ;;
-    show ) orgscript_get "$1" ;;
-    * ) orgscript_get "$CMD" | bash -s -- "$@" ;;
+    show ) orgscript_cat_text "$1" ;;
+    * ) orgscript_cat_text "$CMD" | bash -s -- "$@" ;;
 esac
