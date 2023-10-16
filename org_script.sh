@@ -8,12 +8,17 @@
 # helpers #
 ###########
 
-orgscript_grep() {
-    local REGEX="(?s)#\+begin_src\b[ a-z:]+\bbash\b[ a-z:]+:script +${NAME}\b[^\n]*\n.*?#\+end_src"
-    grep --include=*.org --exclude-dir=.git -Pzoirh "$REGEX" "$ORG" |
-        cut -z -d '' -f 1 | # exctract first script
-        tr '\0' '\n'        # replace final null with newline
-}
+# Echo script name and content
+orgscript_grep() (
+    SCRIPT_NAME="$1"
+    DIR="$2"
+
+    REGEX="(?s)#\+begin_src\b[ a-z:]+\bbash\b[ a-z:]+:script +${SCRIPT_NAME}\b[^\n]*\n.*?#\+end_src"
+    FIRST_MATCH="$(grep --include=*.org --exclude-dir=.git -Pzoir "$REGEX" "$DIR" | cut -z -d '' -f 1 | tr '\0' '\n')"
+    IFS=: read -d '' -r FILE SCRIPT_TEXT <<< "$(grep --include=*.org --exclude-dir=.git -Pzoir "$REGEX" "$DIR" | cut -z -d '' -f 1 | tr '\0' '\n')"
+    echo "#$FILE"
+    echo "$SCRIPT_TEXT"
+)
 
 # UNUSED
 orgscript_rg() { # ripgrep alternative to orgscript_grep
@@ -31,10 +36,6 @@ orgscript_cat_text() {
     [[ -z "$NAME" ]] && echo '!! orgscript: script name not given' && return 1
     orgscript_grep "$NAME" "$ORG"
 }
-orgscript_run() {
-    orgscript_cat_text "$1" | bash -si
-}
-
 
 # list all org scripts
 orgscript_list() {
@@ -45,7 +46,7 @@ orgscript_list() {
                 echo 'org scripts:'
                 while read line path num; do echo "  - $line, defined in $path:$num"; done
             else
-                fzf | cut -f 1 | orgscript_run "$(cat -)"
+                fzf | cut -f 1 | orgscript_cat_text "$(cat -)" | bash -s
             fi
         }
 }
