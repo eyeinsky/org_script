@@ -17,7 +17,7 @@ orgscript_grep() (
     FIRST_MATCH="$(grep --include=*.org --exclude-dir=.git -Pzoir "$REGEX" "$DIR" | cut -z -d '' -f 1 | tr '\0' '\n')"
     IFS=: read -d '' -r FILE SCRIPT_TEXT <<< "$(grep --include=*.org --exclude-dir=.git -Pzoir "$REGEX" "$DIR" | cut -z -d '' -f 1 | tr '\0' '\n')"
     echo "#$FILE"
-    echo "$SCRIPT_TEXT"
+    echo -n "$SCRIPT_TEXT"
 )
 
 ############
