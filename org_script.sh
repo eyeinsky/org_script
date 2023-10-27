@@ -20,12 +20,6 @@ orgscript_grep() (
     echo "$SCRIPT_TEXT"
 )
 
-# UNUSED
-orgscript_rg() { # ripgrep alternative to orgscript_grep
-    local REGEX="(?s)#\+begin_src (bash +:script +${1}\b.*?)#\+end_src"
-    rg -UINioP -r '$1' --multiline-dotall --color=never -g '*.org' "$REGEX" "$2"
-}
-
 ############
 # commands #
 ############
