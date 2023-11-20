@@ -69,5 +69,14 @@ case "$CMD" in
     '' | ls | list ) orgscript_list ;;
     show ) orgscript_cat_text "$1" ;;
     path ) orgscript_cat_text "$1" | head -n 1 | tail -c +2 ;;
-    * ) orgscript_cat_text "$CMD" | bash -s -- "$@" ;;
+    search | s | grep | g ) orgscript_list | grep "$1" ;;
+    * )
+        script_text="$(orgscript_cat_text "$CMD")"
+        if [[ -n "$script_text" ]]; then
+            bash -c "$script_text" -- "$@"
+        else
+            echo Script \'$CMD\' not found, but found these:
+            orgscript_list | grep "$CMD"
+        fi
+        ;;
 esac
