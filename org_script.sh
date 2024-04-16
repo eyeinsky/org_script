@@ -35,7 +35,7 @@ orgscript_cat_text() {
 
 # list all org scripts
 orgscript_list() {
-    grep --include=*.org --exclude-dir=.git -Pnoir '#\+begin_src\b.+\bbash\b.+:script +\K\w+\b' "$ORG" |
+    grep --include=*.org --exclude-dir=.git -Pnoir '#\+begin_src\b.+\bbash\b.+:script +\K(\w|[-_])+\b' "$ORG" |
         awk -F: '{print $3 "\t" $1 ":" $2 }' |
         {
             if [[ dumb = "$TERM" ]]; then
